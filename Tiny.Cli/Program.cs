@@ -28,7 +28,7 @@ var directory = args.Contains("-c") || args.Contains("--current")
         ? args[Array.IndexOf(args, "-d") + 1]
         : Environment.CurrentDirectory;
 
-var searchOption = args.Contains("-r") || args.Contains("--recurse")
+var searchOption = args.Contains("-s") || args.Contains("--subdir")
     ? SearchOption.AllDirectories
     : SearchOption.TopDirectoryOnly;
 
@@ -36,13 +36,24 @@ var outputDir = args.Contains("-o") || args.Contains("--out")
     ? args[Array.IndexOf(args, "-o") + 1]
     : Environment.CurrentDirectory;
 
+var resize = args.Contains("-r") || args.Contains("--resize")
+    ? args[Array.IndexOf(args, "-r") + 1]
+    : null;
+
 try
 {
     if (singleFile is not null)
     {
         Console.WriteLine($"Optimizing {singleFile}");
         var source = Tinify.FromFile(singleFile);
+
+        if (resize is not null)
+        {
+            source = AddResizeIfNeeded(source, singleFile, resize);
+        }
+
         await source.ToFile(Path.Combine(outputDir, Path.GetFileName(singleFile)));
+        
         return;
     }
 
@@ -64,6 +75,12 @@ try
         Console.WriteLine($"{index}/{filesCount} Optimizing {file}");
 
         var source = Tinify.FromFile(file);
+        
+        if (resize is not null)
+        {
+            source = AddResizeIfNeeded(source, file, resize);
+        }
+        
         await source.ToFile(Path.Combine(outputDir, Path.GetFileName(file)));
     }
 }
@@ -91,8 +108,29 @@ static void PrintHelp()
     Console.WriteLine("Options:");
     Console.WriteLine("  -h, --help             Show this help information");
     Console.WriteLine("  -c, --current          Optimize all images in the current directory");
-    Console.WriteLine("  -r, --recurse          Optimize all images in the current (or provided) directory and subdirectories");
+    Console.WriteLine("  -s, --subdir           Optimize all images in the current (or provided) directory and subdirectories");
     Console.WriteLine("  -f, --file <filename>  Optimize the specific file");
     Console.WriteLine("  -d, --dir <directory>  Optimize all images in the specific directory");
     Console.WriteLine("  -o, --out <directory>  Output directory for optimized images");
+    Console.WriteLine("  -r, --resize <size>    resize to specific size (only one number)");
+}
+
+Task<Source> AddResizeIfNeeded(Task<Source> task, string filePath, string targetResize)
+{
+    using var image = Image.Load(filePath);
+    int width = image.Width;
+    int height = image.Height;
+
+    int target = Convert.ToInt32(targetResize);
+    if (width > target || height > target)
+    {
+        task = task.Resize(new
+        {
+            method = "fit",
+            width = target,
+            height = target
+        });                    
+    }
+
+    return task;
 }
