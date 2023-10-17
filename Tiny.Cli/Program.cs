@@ -1,4 +1,5 @@
-﻿using TinifyAPI;
+﻿using SixLabors.ImageSharp;
+using TinifyAPI;
 
 var tinyKey = Environment.GetEnvironmentVariable("TINY_KEY");
 
