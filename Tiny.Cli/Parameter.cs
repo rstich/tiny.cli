@@ -38,4 +38,10 @@ public abstract class Parameter
         public static string Simple => "-d";
         public static string Complex => "--dir";
     }
+
+    public abstract record SubDirectory
+    {
+        public static string Simple => "-s";
+        public static string Complex => "--subdir";
+    }
 }
