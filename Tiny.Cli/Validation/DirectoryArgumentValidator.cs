@@ -2,12 +2,9 @@
 
 public class DirectoryArgumentValidator : IArgumentValidator
 {
-    private bool _isValid;
-    private string? _message;
-    public bool IsValid()
-    {
-        return _isValid;
-    }
+    public bool IsValid { get; private set; }
+
+    public string? Message { get; private set;}
 
     public string? ValidateArguments(string[] arguments)
     {
@@ -20,7 +17,7 @@ public class DirectoryArgumentValidator : IArgumentValidator
         
         if (NoFileNameProvided(arguments)) return null;
         
-        _isValid = true;
+        IsValid = true;
         return GetDirectory(arguments);
     }
 
@@ -37,8 +34,8 @@ public class DirectoryArgumentValidator : IArgumentValidator
     {
         if (GetDirectory(arguments) is null)
         {
-            _message = "Missing directory name";
-            _isValid = false;
+            Message = "Missing directory name";
+            IsValid = false;
             return true;
         }
         return false;
@@ -72,8 +69,8 @@ public class DirectoryArgumentValidator : IArgumentValidator
         if (arguments.Count(s => s.Contains(simple)) <= 1 && arguments.Count(s => s.Contains(complex)) <= 1)
             return false;
         
-        _message = $"Cannot use {simple} or {complex} attribute more than once";
-        _isValid = false;
+        Message = $"Cannot use {simple} or {complex} attribute more than once";
+        IsValid = false;
         return true;
     }
 
@@ -81,8 +78,8 @@ public class DirectoryArgumentValidator : IArgumentValidator
     {
         if (arguments.Contains(firstParam) && arguments.Contains(secondParam))
         {
-            _message = $"Cannot use both {firstParam} and {secondParam}";
-            _isValid = false;
+            Message = $"Cannot use both {firstParam} and {secondParam}";
+            IsValid = false;
             return true;
         }
 
@@ -91,8 +88,8 @@ public class DirectoryArgumentValidator : IArgumentValidator
 
     private bool CurrentDirectoryIsProvided(string[] arguments)
     {
-        _isValid = arguments.Contains(Parameter.CurrentDirectory.Simple) || arguments.Contains(Parameter.CurrentDirectory.Complex);
-        return _isValid;
+        IsValid = arguments.Contains(Parameter.CurrentDirectory.Simple) || arguments.Contains(Parameter.CurrentDirectory.Complex);
+        return IsValid;
     }
 
     private bool NoDirectoryArgumentProvided(string[] arguments)
@@ -100,15 +97,10 @@ public class DirectoryArgumentValidator : IArgumentValidator
         if (!arguments.Contains(Parameter.Directory.Simple) && !arguments.Contains(Parameter.Directory.Complex) && !arguments.Contains(Parameter.CurrentDirectory.Simple) &&
             !arguments.Contains(Parameter.CurrentDirectory.Complex))
         {
-            _isValid = true;
+            IsValid = true;
             return true;
         }
 
         return false;
-    }
-
-    public string? GetMessage()
-    {
-        return _message;
     }
 }

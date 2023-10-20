@@ -2,13 +2,8 @@
 
 public class SingleFileArgumentValidator : IArgumentValidator
 {
-    private string? _message;
-    private bool _isValid;
-    
-    public bool IsValid()
-    {
-        return _isValid;
-    }
+    public bool IsValid { get; private set; }
+    public string? Message { get; private set; }
 
     public string? ValidateArguments(string[] arguments)
     {
@@ -20,7 +15,7 @@ public class SingleFileArgumentValidator : IArgumentValidator
         
         if (NoFileNameProvided(arguments, index)) return null;
         
-        _isValid = true;
+        IsValid = true;
         return arguments[index + 1];
     }
 
@@ -28,8 +23,8 @@ public class SingleFileArgumentValidator : IArgumentValidator
     {
         if (index + 1 >= arguments.Length || arguments[index + 1].StartsWith("-"))
         {
-            _message = "Missing file name";
-            _isValid = false;
+            Message = "Missing file name";
+            IsValid = false;
             return true;
         }
 
@@ -40,16 +35,16 @@ public class SingleFileArgumentValidator : IArgumentValidator
     {
         if (arguments.Contains(Parameter.SingleFile.Simple) && arguments.Contains(Parameter.SingleFile.Complex))
         {
-            _message = $"Cannot use both {Parameter.SingleFile.Simple} and {Parameter.SingleFile.Complex}";
-            _isValid = false;
+            Message = $"Cannot use both {Parameter.SingleFile.Simple} and {Parameter.SingleFile.Complex}";
+            IsValid = false;
             return true;
         }
 
         if (arguments.Count(s => s.Contains(Parameter.SingleFile.Simple)) <= 1 && arguments.Count(s => s.Contains(Parameter.SingleFile.Complex)) <= 1)
             return false;
         
-        _message = "Cannot use file attribute more than once";
-        _isValid = false;
+        Message = "Cannot use file attribute more than once";
+        IsValid = false;
         return true;
     }
 
@@ -57,7 +52,7 @@ public class SingleFileArgumentValidator : IArgumentValidator
     {
         if (!arguments.Contains(Parameter.SingleFile.Simple) && !arguments.Contains(Parameter.SingleFile.Complex))
         {
-            _isValid = true;
+            IsValid = true;
             return true;
         }
 
@@ -70,10 +65,5 @@ public class SingleFileArgumentValidator : IArgumentValidator
             return Array.IndexOf(arguments, Parameter.SingleFile.Simple);
         
         return Array.IndexOf(arguments, Parameter.SingleFile.Complex);
-    }
-
-    public string? GetMessage()
-    {
-        return _message;
     }
 }

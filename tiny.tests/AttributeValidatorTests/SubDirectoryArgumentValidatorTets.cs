@@ -12,9 +12,9 @@ public class SubDirectoryArgumentValidatorTets
         var sut = new SubDirectoryArgumentValidator();
         var response = sut.ValidateArguments(args);
         
-        Assert.True(sut.IsValid());
+        Assert.True(sut.IsValid);
         Assert.True(response == SearchOption.TopDirectoryOnly.ToString());
-        Assert.Null(sut.GetMessage());
+        Assert.Null(sut.Message);
     }
     
     [Fact]
@@ -24,9 +24,9 @@ public class SubDirectoryArgumentValidatorTets
         var sut = new SubDirectoryArgumentValidator();
         var response = sut.ValidateArguments(args);
         
-        Assert.True(sut.IsValid());
+        Assert.True(sut.IsValid);
         Assert.True(response == SearchOption.TopDirectoryOnly.ToString());
-        Assert.Null(sut.GetMessage());
+        Assert.Null(sut.Message);
     }
     
     [Fact]
@@ -36,9 +36,9 @@ public class SubDirectoryArgumentValidatorTets
         var sut = new SubDirectoryArgumentValidator();
         var response = sut.ValidateArguments(args);
         
-        Assert.True(sut.IsValid());
+        Assert.True(sut.IsValid);
         Assert.True(response == SearchOption.AllDirectories.ToString());
-        Assert.Null(sut.GetMessage());
+        Assert.Null(sut.Message);
     }
     
     [Fact]
@@ -48,9 +48,9 @@ public class SubDirectoryArgumentValidatorTets
         var sut = new SubDirectoryArgumentValidator();
         var response = sut.ValidateArguments(args);
         
-        Assert.True(sut.IsValid());
+        Assert.True(sut.IsValid);
         Assert.True(response == SearchOption.AllDirectories.ToString());
-        Assert.Null(sut.GetMessage());
+        Assert.Null(sut.Message);
     }
     
     [Fact]
@@ -60,8 +60,8 @@ public class SubDirectoryArgumentValidatorTets
         var sut = new SubDirectoryArgumentValidator();
         var response = sut.ValidateArguments(args);
         
-        Assert.False(sut.IsValid());
+        Assert.False(sut.IsValid);
         Assert.True(response == SearchOption.TopDirectoryOnly.ToString());
-        Assert.False(string.IsNullOrEmpty(sut.GetMessage()));
+        Assert.False(string.IsNullOrEmpty(sut.Message));
     }
 }

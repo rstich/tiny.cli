@@ -12,9 +12,9 @@ public class DirectoryArgumentValidatorTest
         var sut = new DirectoryArgumentValidator();
         var response = sut.ValidateArguments(args);
         
-        Assert.True(sut.IsValid());
+        Assert.True(sut.IsValid);
         Assert.Null(response);
-        Assert.Null(sut.GetMessage());
+        Assert.Null(sut.Message);
     }
     
     [Fact]
@@ -24,9 +24,9 @@ public class DirectoryArgumentValidatorTest
         var sut = new DirectoryArgumentValidator();
         var response = sut.ValidateArguments(args);
         
-        Assert.True(sut.IsValid());
+        Assert.True(sut.IsValid);
         Assert.Null(response);
-        Assert.Null(sut.GetMessage());
+        Assert.Null(sut.Message);
     }
     
     [Fact]
@@ -36,9 +36,9 @@ public class DirectoryArgumentValidatorTest
         var sut = new DirectoryArgumentValidator();
         var response = sut.ValidateArguments(args);
         
-        Assert.True(sut.IsValid());
+        Assert.True(sut.IsValid);
         Assert.True(response is not null && response == Environment.CurrentDirectory);
-        Assert.Null(sut.GetMessage());
+        Assert.Null(sut.Message);
     }
     
     [Fact]
@@ -48,9 +48,9 @@ public class DirectoryArgumentValidatorTest
         var sut = new DirectoryArgumentValidator();
         var response = sut.ValidateArguments(args);
         
-        Assert.True(sut.IsValid());
+        Assert.True(sut.IsValid);
         Assert.True(response is not null && response == Environment.CurrentDirectory);
-        Assert.Null(sut.GetMessage());
+        Assert.Null(sut.Message);
     }
     
     [Fact]
@@ -60,9 +60,9 @@ public class DirectoryArgumentValidatorTest
         var sut = new DirectoryArgumentValidator();
         var response = sut.ValidateArguments(args);
         
-        Assert.True(sut.IsValid());
+        Assert.True(sut.IsValid);
         Assert.True(response is not null && response == "C:\\temp");
-        Assert.Null(sut.GetMessage());
+        Assert.Null(sut.Message);
     }
     
     [Fact]
@@ -72,9 +72,9 @@ public class DirectoryArgumentValidatorTest
         var sut = new DirectoryArgumentValidator();
         var response = sut.ValidateArguments(args);
         
-        Assert.True(sut.IsValid());
+        Assert.True(sut.IsValid);
         Assert.True(response is not null && response == "C:\\temp");
-        Assert.Null(sut.GetMessage());
+        Assert.Null(sut.Message);
     }
     
     [Fact]
@@ -84,9 +84,9 @@ public class DirectoryArgumentValidatorTest
         var sut = new DirectoryArgumentValidator();
         var response = sut.ValidateArguments(args);
         
-        Assert.False(sut.IsValid());
+        Assert.False(sut.IsValid);
         Assert.Null(response);
-        Assert.True(sut.GetMessage() is not null);
+        Assert.True(sut.Message is not null);
     }
     
     [Fact]
@@ -96,9 +96,9 @@ public class DirectoryArgumentValidatorTest
         var sut = new DirectoryArgumentValidator();
         var response = sut.ValidateArguments(args);
         
-        Assert.False(sut.IsValid());
+        Assert.False(sut.IsValid);
         Assert.Null(response);
-        Assert.True(sut.GetMessage() is not null);
+        Assert.True(sut.Message is not null);
     }
     
     [Fact]
@@ -108,8 +108,8 @@ public class DirectoryArgumentValidatorTest
         var sut = new DirectoryArgumentValidator();
         var response = sut.ValidateArguments(args);
         
-        Assert.False(sut.IsValid());
+        Assert.False(sut.IsValid);
         Assert.Null(response);
-        Assert.True(sut.GetMessage() is not null);
+        Assert.True(sut.Message is not null);
     }
 }

@@ -2,7 +2,8 @@
 
 public interface IArgumentValidator
 {
-    public bool IsValid();
+    bool IsValid { get; }
+    string? Message { get; }
+    
     public string? ValidateArguments(string[] arguments);
-    public string? GetMessage();
 }

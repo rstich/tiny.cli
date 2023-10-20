@@ -12,8 +12,8 @@ public class HelpArgumentValidatorTest
         var validator = new HelpArgumentValidator();
         
         var response = validator.ValidateArguments(arguments);
-        var isValid = validator.IsValid();
-        var message = validator.GetMessage();
+        var isValid = validator.IsValid;
+        var message = validator.Message;
         
         Assert.True(isValid);
         Assert.Null(response);
@@ -27,8 +27,8 @@ public class HelpArgumentValidatorTest
         var validator = new HelpArgumentValidator();
         
         var response = validator.ValidateArguments(arguments);
-        var isValid = validator.IsValid();
-        var message = validator.GetMessage();
+        var isValid = validator.IsValid;
+        var message = validator.Message;
         
         Assert.True(isValid);
         Assert.Null(response);
@@ -42,8 +42,8 @@ public class HelpArgumentValidatorTest
         var validator = new HelpArgumentValidator();
         
         var response = validator.ValidateArguments(arguments);
-        var isValid = validator.IsValid();
-        var message = validator.GetMessage();
+        var isValid = validator.IsValid;
+        var message = validator.Message;
         
         Assert.True(isValid);
         Assert.Null(response);
@@ -57,8 +57,8 @@ public class HelpArgumentValidatorTest
         var validator = new HelpArgumentValidator();
         
         var response = validator.ValidateArguments(arguments);
-        var isValid = validator.IsValid();
-        var message = validator.GetMessage();
+        var isValid = validator.IsValid;
+        var message = validator.Message;
         
         Assert.True(isValid);
         Assert.Null(response);

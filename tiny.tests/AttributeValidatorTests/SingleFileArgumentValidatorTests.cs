@@ -12,8 +12,8 @@ public class SingleFileArgumentValidatorTests
         var validator = new SingleFileArgumentValidator();
         
         var response = validator.ValidateArguments(arguments);
-        var isValid = validator.IsValid();
-        var message = validator.GetMessage();
+        var isValid = validator.IsValid;
+        var message = validator.Message;
         
         Assert.True(isValid);
         Assert.Null(response);
@@ -27,8 +27,8 @@ public class SingleFileArgumentValidatorTests
         var validator = new SingleFileArgumentValidator();
         
         var response = validator.ValidateArguments(arguments);
-        var isValid = validator.IsValid();
-        var message = validator.GetMessage();
+        var isValid = validator.IsValid;
+        var message = validator.Message;
         
         Assert.True(isValid);
         Assert.Null(response);
@@ -43,8 +43,8 @@ public class SingleFileArgumentValidatorTests
         var validator = new SingleFileArgumentValidator();
         
         var response = validator.ValidateArguments(arguments);
-        var isValid = validator.IsValid();
-        var message = validator.GetMessage();
+        var isValid = validator.IsValid;
+        var message = validator.Message;
         
         Assert.True(isValid);
         Assert.True(response is not null && response == fileName);
@@ -59,8 +59,8 @@ public class SingleFileArgumentValidatorTests
         var validator = new SingleFileArgumentValidator();
         
         var response = validator.ValidateArguments(arguments);
-        var isValid = validator.IsValid();
-        var message = validator.GetMessage();
+        var isValid = validator.IsValid;
+        var message = validator.Message;
         
         Assert.True(isValid);
         Assert.True(response is not null && response == fileName);
@@ -74,8 +74,8 @@ public class SingleFileArgumentValidatorTests
         var validator = new SingleFileArgumentValidator();
         
         var response = validator.ValidateArguments(arguments);
-        var isValid = validator.IsValid();
-        var message = validator.GetMessage();
+        var isValid = validator.IsValid;
+        var message = validator.Message;
         
         Assert.False(isValid);
         Assert.Null(response);
@@ -89,8 +89,8 @@ public class SingleFileArgumentValidatorTests
         var validator = new SingleFileArgumentValidator();
         
         var response = validator.ValidateArguments(arguments);
-        var isValid = validator.IsValid();
-        var message = validator.GetMessage();
+        var isValid = validator.IsValid;
+        var message = validator.Message;
         
         Assert.False(isValid);
         Assert.Null(response);
@@ -104,8 +104,8 @@ public class SingleFileArgumentValidatorTests
         var validator = new SingleFileArgumentValidator();
         
         var response = validator.ValidateArguments(arguments);
-        var isValid = validator.IsValid();
-        var message = validator.GetMessage();
+        var isValid = validator.IsValid;
+        var message = validator.Message;
         
         Assert.False(isValid);
         Assert.Null(response);
@@ -119,8 +119,8 @@ public class SingleFileArgumentValidatorTests
         var validator = new SingleFileArgumentValidator();
         
         var response = validator.ValidateArguments(arguments);
-        var isValid = validator.IsValid();
-        var message = validator.GetMessage();
+        var isValid = validator.IsValid;
+        var message = validator.Message;
         
         Assert.False(isValid);
         Assert.Null(response);
@@ -134,8 +134,8 @@ public class SingleFileArgumentValidatorTests
         var validator = new SingleFileArgumentValidator();
         
         var response = validator.ValidateArguments(arguments);
-        var isValid = validator.IsValid();
-        var message = validator.GetMessage();
+        var isValid = validator.IsValid;
+        var message = validator.Message;
         
         Assert.False(isValid);
         Assert.Null(response);
