@@ -44,4 +44,10 @@ public abstract class Parameter
         public static string Simple => "-s";
         public static string Complex => "--subdir";
     }
+
+    public abstract record OutPutDir
+    {
+        public static string Simple => "-o";
+        public static string Complex => "--out";
+    }
 }

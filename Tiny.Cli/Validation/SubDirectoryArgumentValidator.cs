@@ -1,6 +1,6 @@
 ﻿namespace Tiny.Cli.Validation;
 
-public class SubDirectoryArgumentValidator : IArgumentValidator
+public class SubDirectoryArgumentValidator : BaseValidator, IArgumentValidator
 {
     public bool IsValid { get; private set; }
     public string? Message { get; private set; }
@@ -16,29 +16,28 @@ public class SubDirectoryArgumentValidator : IArgumentValidator
 
     private bool NoSubDirectoryParameterProvided(string[] arguments)
     {
-        if (!arguments.Contains(Parameter.SubDirectory.Simple) && !arguments.Contains(Parameter.SubDirectory.Complex))
-        {
-            IsValid = true;
-            return true;
-        }
+        if (ContainsValidatorArgument(arguments, Parameter.SubDirectory.Simple, Parameter.SubDirectory.Complex)) return false;
+        IsValid = true;
+        return true;
 
-        return false;
     }
     
     private bool TooManySubDirectoryParametersProvided(string[] arguments)
     {
-        if (arguments.Contains(Parameter.SubDirectory.Simple) && arguments.Contains(Parameter.SubDirectory.Complex))
+        if (TooManyValidatorArgumentsProvided(arguments, Parameter.SubDirectory.Simple, Parameter.SubDirectory.Complex))
         {
-            Message = $"Cannot use both {Parameter.SubDirectory.Simple} and {Parameter.SubDirectory.Complex}";
             IsValid = false;
+            Message = "Too many subdirectory parameters provided";
             return true;
         }
 
-        if (arguments.Count(s => s.Contains(Parameter.SubDirectory.Simple)) <= 1 && arguments.Count(s => s.Contains(Parameter.SubDirectory.Complex)) <= 1)
-            return false;
-        
-        Message = "Cannot use sub directory attribute more than once";
-        IsValid = false;
-        return true;
+        if (BothValidatorArgumentsProvided(arguments, Parameter.SubDirectory.Simple, Parameter.SubDirectory.Complex))
+        {
+            IsValid = false;
+            Message = $"Cannot use both {Parameter.SubDirectory.Simple} and {Parameter.SubDirectory.Complex}";
+            return true;
+        }
+
+        return false;
     }
 }

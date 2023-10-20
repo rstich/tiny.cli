@@ -1,6 +1,6 @@
 ﻿namespace Tiny.Cli.Validation;
 
-public class SingleFileArgumentValidator : IArgumentValidator
+public class SingleFileArgumentValidator : BaseValidator, IArgumentValidator
 {
     public bool IsValid { get; private set; }
     public string? Message { get; private set; }
@@ -33,30 +33,29 @@ public class SingleFileArgumentValidator : IArgumentValidator
 
     private bool TooManyFileParametersProvided(string[] arguments)
     {
-        if (arguments.Contains(Parameter.SingleFile.Simple) && arguments.Contains(Parameter.SingleFile.Complex))
+        if (BothValidatorArgumentsProvided(arguments, Parameter.SingleFile.Simple, Parameter.SingleFile.Complex))
         {
             Message = $"Cannot use both {Parameter.SingleFile.Simple} and {Parameter.SingleFile.Complex}";
             IsValid = false;
             return true;
         }
-
-        if (arguments.Count(s => s.Contains(Parameter.SingleFile.Simple)) <= 1 && arguments.Count(s => s.Contains(Parameter.SingleFile.Complex)) <= 1)
-            return false;
         
-        Message = "Cannot use file attribute more than once";
-        IsValid = false;
-        return true;
-    }
-
-    private bool NoFileParameterProvided(string[] arguments)
-    {
-        if (!arguments.Contains(Parameter.SingleFile.Simple) && !arguments.Contains(Parameter.SingleFile.Complex))
+        if (TooManyValidatorArgumentsProvided(arguments, Parameter.SingleFile.Simple, Parameter.SingleFile.Complex))
         {
-            IsValid = true;
+            Message = "Too many file parameters provided";
+            IsValid = false;
             return true;
         }
 
         return false;
+    }
+
+    private bool NoFileParameterProvided(string[] arguments)
+    {
+        if (ContainsValidatorArgument(arguments, Parameter.SingleFile.Simple, Parameter.SingleFile.Complex)) return false;
+        
+        IsValid = true;
+        return true;
     }
 
     private int GetArgumentIndex(string[] arguments)
