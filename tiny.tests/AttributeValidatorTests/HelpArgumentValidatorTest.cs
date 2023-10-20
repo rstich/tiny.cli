@@ -1,7 +1,7 @@
 ﻿using Tiny.Cli;
 using Tiny.Cli.Validation;
 
-namespace tiny.tests;
+namespace tiny.tests.AttributeValidatorTests;
 
 public class HelpArgumentValidatorTest
 {
@@ -38,7 +38,7 @@ public class HelpArgumentValidatorTest
     [Fact]
     public void HelpArgument_Simple_Returns_HelpMessage()
     {
-        var arguments = new[] { "-h" };
+        var arguments = new[] { Parameter.Help.Simple };
         var validator = new HelpArgumentValidator();
         
         var response = validator.ValidateArguments(arguments);
@@ -53,7 +53,7 @@ public class HelpArgumentValidatorTest
     [Fact]
     public void HelpArgument_Complex_Returns_HelpMessage()
     {
-        var arguments = new[] { "--help" };
+        var arguments = new[] { Parameter.Help.Complex };
         var validator = new HelpArgumentValidator();
         
         var response = validator.ValidateArguments(arguments);

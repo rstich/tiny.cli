@@ -1,6 +1,7 @@
-﻿using Tiny.Cli.Validation;
+﻿using Tiny.Cli;
+using Tiny.Cli.Validation;
 
-namespace tiny.tests;
+namespace tiny.tests.AttributeValidatorTests;
 
 public class SingleFileArgumentValidatorTests
 {
@@ -38,7 +39,7 @@ public class SingleFileArgumentValidatorTests
     public void SingleFileArgument_Simple_Returns_SingleFile()
     {
         string fileName = "test.jpg";
-        var arguments = new[] { "-f", fileName };
+        var arguments = new[] { Parameter.SingleFile.Simple, fileName };
         var validator = new SingleFileArgumentValidator();
         
         var response = validator.ValidateArguments(arguments);
@@ -54,7 +55,7 @@ public class SingleFileArgumentValidatorTests
     public void SingleFileArgument_Complex_Returns_SingleFile()
     {
         string fileName = "test.jpg";
-        var arguments = new[] { "--file", fileName };
+        var arguments = new[] { Parameter.SingleFile.Complex, fileName };
         var validator = new SingleFileArgumentValidator();
         
         var response = validator.ValidateArguments(arguments);
@@ -69,7 +70,7 @@ public class SingleFileArgumentValidatorTests
     [Fact]
     public void SingleFileArgument_Simple_MissingFileName_Returns_Null()
     {
-        var arguments = new[] { "-f" };
+        var arguments = new[] { Parameter.SingleFile.Simple };
         var validator = new SingleFileArgumentValidator();
         
         var response = validator.ValidateArguments(arguments);
@@ -84,7 +85,7 @@ public class SingleFileArgumentValidatorTests
     [Fact]
     public void SingleFileArgument_Complex_MissingFileName_Returns_Null()
     {
-        var arguments = new[] { "--file" };
+        var arguments = new[] { Parameter.SingleFile.Complex };
         var validator = new SingleFileArgumentValidator();
         
         var response = validator.ValidateArguments(arguments);
@@ -99,7 +100,7 @@ public class SingleFileArgumentValidatorTests
     [Fact]
     public void ToManyFileArguments_Returns_Null()
     {
-        var arguments = new[] { "--file", "test.jpg", "-f", "test2.jpg" };
+        var arguments = new[] { Parameter.SingleFile.Complex, "test.jpg", Parameter.SingleFile.Simple, "test2.jpg" };
         var validator = new SingleFileArgumentValidator();
         
         var response = validator.ValidateArguments(arguments);
@@ -114,7 +115,7 @@ public class SingleFileArgumentValidatorTests
     [Fact]
     public void DoubleFileArguments_Simple_Returns_Null()
     {
-        var arguments = new[] { "-f", "test.jpg", "-f", "test2.jpg" };
+        var arguments = new[] { Parameter.SingleFile.Simple, "test.jpg", Parameter.SingleFile.Simple, "test2.jpg" };
         var validator = new SingleFileArgumentValidator();
         
         var response = validator.ValidateArguments(arguments);
@@ -129,7 +130,7 @@ public class SingleFileArgumentValidatorTests
     [Fact]
     public void DoubleFileArguments_Complex_Returns_Null()
     {
-        var arguments = new[] { "--file", "test.jpg", "--file", "test2.jpg" };
+        var arguments = new[] { Parameter.SingleFile.Complex, "test.jpg", Parameter.SingleFile.Complex, "test2.jpg" };
         var validator = new SingleFileArgumentValidator();
         
         var response = validator.ValidateArguments(arguments);
