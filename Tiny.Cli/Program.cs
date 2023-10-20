@@ -1,16 +1,41 @@
-﻿using SixLabors.ImageSharp;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using SixLabors.ImageSharp;
 using TinifyAPI;
+using Tiny.Cli;
+using Tiny.Cli.Validation;
 
-var tinyKey = Environment.GetEnvironmentVariable("TINY_KEY");
-
-if (tinyKey is null)
+static void Main(string[] args)
 {
-    Console.WriteLine("Please set the TINY_KEY environment variable by typing:");
-    Console.WriteLine("set TINY_KEY=your_api_key");
-    return;
+    ValidateEnvironmentVariables();
+    
+    HostApplicationBuilder builder = Host.CreateApplicationBuilder();
+    builder.Services.InstallArgumentValidators();
+    builder.Services.AddSingleton<ArgumentValidationService>();
+    var host = builder.Build();
+    
+    var validator = host.Services.GetRequiredService<ArgumentValidationService>();
+    var commands = validator.ValidateArguments(args);
+    
+    //create a class for the main implementation
 }
 
-Tinify.Key = tinyKey; // Your API key
+//maybe this in the main class too or also in a validator?
+static void ValidateEnvironmentVariables()
+{
+    var tinyKey = Environment.GetEnvironmentVariable("TINY_KEY");
+
+    if (tinyKey is null)
+    {
+        Console.WriteLine("Please set the TINY_KEY environment variable by typing:");
+        Console.WriteLine("set TINY_KEY=your_api_key");
+        return;
+    }
+
+    Tinify.Key = tinyKey; // Your API key
+}
+
+
 
 
 if (args.Length == 0 || args.Contains("-h") || args.Contains("--help"))
@@ -19,6 +44,7 @@ if (args.Length == 0 || args.Contains("-h") || args.Contains("--help"))
     return;
 }
 
+//TODO: add argument validation
 var singleFile = args.Contains("-f") || args.Contains("--file")
     ? args[Array.IndexOf(args, "-f") + 1]
     : null;
