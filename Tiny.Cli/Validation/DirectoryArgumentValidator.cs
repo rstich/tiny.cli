@@ -69,7 +69,7 @@ public class DirectoryArgumentValidator : BaseValidator, IArgumentValidator
     {
         if (GetDirectory(arguments) is null)
         {
-            Message = "Missing directory name";
+            Message = $"Missing directory name for parameter {Parameter.Directory.Simple}";
             IsValid = false;
             return true;
         }

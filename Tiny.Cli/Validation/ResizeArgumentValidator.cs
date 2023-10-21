@@ -21,7 +21,7 @@ public class ResizeArgumentValidator : BaseValidator, IArgumentValidator
     {
         if (index + 1 >= arguments.Length || arguments[index + 1].StartsWith("-"))
         {
-            Message = "Missing Size";
+            Message = "Missing Size for resize parameter";
             IsValid = false;
             return true;
         }

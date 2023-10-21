@@ -25,14 +25,11 @@ public class ArgumentValidationService
             }
         }
 
-        if (!argumentsAreValid)
-        {
-            _validators.Select(v => v.Message)
-                .Where(v => v != null)
-                .ToList()
-                .ForEach(Console.WriteLine);
-        }
-
+        _validators.Select(v => v.Message)
+            .Where(v => v != null)
+            .ToList()
+            .ForEach(Console.WriteLine);
+        
         return argumentsAreValid;
     }
 }

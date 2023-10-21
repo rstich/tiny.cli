@@ -49,7 +49,7 @@ public class OutPutDirArgumentValidator : BaseValidator, IArgumentValidator
     {
         if (index + 1 >= arguments.Length || arguments[index + 1].StartsWith("-"))
         {
-            Message = "Missing file name";
+            Message = $"Missing file name for parameter {arguments[index]}";
             IsValid = false;
             return true;
         }
