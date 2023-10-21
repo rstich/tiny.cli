@@ -1,4 +1,6 @@
-﻿namespace Tiny.Cli;
+﻿using TinifyAPI;
+
+namespace Tiny.Cli;
 
 public class TinifyProcessingService
 {
@@ -11,7 +13,25 @@ public class TinifyProcessingService
     
     public void Process(string[] arguments)
     {
-        bool argumentsValid = _argumentValidationService.ValidateArguments(arguments);
+        if (EnvironmentSettingValid())
+        {
+            var argumentsValid = _argumentValidationService.ValidateArguments(arguments);
+        }
+    }
+    
+    private static bool EnvironmentSettingValid()
+    {
+        var tinyKey = Environment.GetEnvironmentVariable("TINY_KEY");
+
+        if (tinyKey is null)
+        {
+            Console.WriteLine("Please set the TINY_KEY environment variable by typing:");
+            Console.WriteLine("set TINY_KEY=your_api_key");
+            return false;
+        }
+
+        Tinify.Key = tinyKey; // Your API key4
+        return true;
     }
     
     /*
