@@ -50,4 +50,10 @@ public abstract class Parameter
         public static string Simple => "-o";
         public static string Complex => "--out";
     }
+    
+    public abstract record Resize
+    {
+        public static string Simple => "-r";
+        public static string Complex => "--resize";
+    }
 }

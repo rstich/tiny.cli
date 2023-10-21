@@ -9,34 +9,30 @@ public class ArgumentValidationService
     {
         _validators = validators;
     }
-    public string? ValidateArguments(string[] arguments)
+    public void ValidateArguments(string[] arguments)
     {
+        bool argumentsAreValid = true;
         foreach (var validator in _validators)
         {
             //ParseArguments Methode
             //GetResult Methode
             //ValidationResult Objekt
             //ValidationError Property
-            var commands = validator.ValidateArguments(arguments);
-            if (commands is not null)
+            validator.ValidateArguments(arguments);
+            if (!validator.IsValid)
             {
-                return commands;
+                argumentsAreValid = false;
             }
         }
-        return null;
-    }
-    
-    private string ProvideHelpMessage()
-    {
-        return @"Usage: tiny [option] [argument]
 
-        Options:
-        -h, --help             Show this help information
-        -c, --current          Optimize all images in the current directory
-        -s, --subdir           Optimize all images in the current (or provided) directory and subdirectories
-        -f, --file <filename>  Optimize the specific file
-        -d, --dir <directory>  Optimize all images in the specific directory
-        -o, --out <directory>  Output directory for optimized images
-        -r, --resize <size>    resize to specific size (only one number)";
+        if (argumentsAreValid)
+        {
+            return;
+        }
+
+        _validators.Select(v => v.Message)
+            .Where(v => v != null)
+            .ToList()
+            .ForEach(Console.WriteLine);
     }
 }

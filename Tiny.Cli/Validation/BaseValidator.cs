@@ -23,4 +23,12 @@ public abstract class BaseValidator
 
         return false;
     }
+    
+    protected int GetArgumentIndex(string[] arguments, string simpleArgument, string complexArgument)
+    {
+        if (arguments.Contains(simpleArgument))
+            return Array.IndexOf(arguments, simpleArgument);
+        
+        return Array.IndexOf(arguments, complexArgument);
+    }
 }

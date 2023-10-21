@@ -41,4 +41,15 @@ public class OutPutDirArgumentValidatorTests
         Assert.Null(sut.Message);
     }
     
+    [Fact]
+    public void OutPutDirArgument_Complex_Returns_OutPutDir()
+    {
+        var args = new[] { Parameter.OutPutDir.Complex, "C:\\temp" };
+        var sut = new OutPutDirArgumentValidator();
+        var response = sut.ValidateArguments(args);
+        
+        Assert.True(sut.IsValid);
+        Assert.True(response is not null && response == "C:\\temp");
+        Assert.Null(sut.Message);
+    }
 }

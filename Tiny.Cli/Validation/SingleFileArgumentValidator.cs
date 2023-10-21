@@ -10,8 +10,8 @@ public class SingleFileArgumentValidator : BaseValidator, IArgumentValidator
         if (NoFileParameterProvided(arguments)) return null;
         
         if (TooManyFileParametersProvided(arguments)) return null;
-        
-        int index = GetArgumentIndex(arguments);
+
+        int index = GetArgumentIndex(arguments, Parameter.SingleFile.Simple, Parameter.SingleFile.Complex);
         
         if (NoFileNameProvided(arguments, index)) return null;
         
@@ -56,13 +56,5 @@ public class SingleFileArgumentValidator : BaseValidator, IArgumentValidator
         
         IsValid = true;
         return true;
-    }
-
-    private int GetArgumentIndex(string[] arguments)
-    {
-        if (arguments.Contains(Parameter.SingleFile.Simple))
-            return Array.IndexOf(arguments, Parameter.SingleFile.Simple);
-        
-        return Array.IndexOf(arguments, Parameter.SingleFile.Complex);
     }
 }

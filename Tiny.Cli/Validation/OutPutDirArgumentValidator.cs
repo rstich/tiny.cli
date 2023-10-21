@@ -9,12 +9,13 @@ public class OutPutDirArgumentValidator : BaseValidator, IArgumentValidator
     {
         if (NoArgumentProvided(arguments)) return null;
         if (TooManyArgumentsProvided(arguments)) return null;
-        /*
-         * var outputDir = args.Contains("-o") || args.Contains("--out")
-    ? args[Array.IndexOf(args, "-o") + 1]
-    : Environment.CurrentDirectory;
-         */
-        throw new NotImplementedException();
+        
+        int index = GetArgumentIndex(arguments, Parameter.OutPutDir.Simple, Parameter.OutPutDir.Complex);
+        
+        if (NoFileNameProvided(arguments, index)) return null;
+        
+        IsValid = true;
+        return arguments[index + 1];
     }
 
     private bool TooManyArgumentsProvided(string[] arguments)
@@ -42,5 +43,17 @@ public class OutPutDirArgumentValidator : BaseValidator, IArgumentValidator
         
         IsValid = true;
         return true;
+    }
+    
+    private bool NoFileNameProvided(string[] arguments, int index)
+    {
+        if (index + 1 >= arguments.Length || arguments[index + 1].StartsWith("-"))
+        {
+            Message = "Missing file name";
+            IsValid = false;
+            return true;
+        }
+
+        return false;
     }
 }
