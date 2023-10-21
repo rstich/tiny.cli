@@ -8,27 +8,16 @@ public abstract class BaseValidator
     }
     protected bool TooManyValidatorArgumentsProvided(string[] arguments, string firstArgument, string secondArgument)
     {
-        if (arguments.Count(s => s.Contains(firstArgument)) <= 1 && arguments.Count(s => s.Contains(secondArgument)) <= 1)
-            return false;
-        
-        return true;
+        return arguments.Count(s => s.Contains(firstArgument)) > 1 || arguments.Count(s => s.Contains(secondArgument)) > 1;
     }
 
     protected bool BothValidatorArgumentsProvided(string[] arguments, string firstArgument, string secondArgument)
     {
-        if (arguments.Contains(firstArgument) && arguments.Contains(secondArgument))
-        {
-            return true;
-        }
-
-        return false;
+        return arguments.Contains(firstArgument) && arguments.Contains(secondArgument);
     }
     
     protected int GetArgumentIndex(string[] arguments, string simpleArgument, string complexArgument)
     {
-        if (arguments.Contains(simpleArgument))
-            return Array.IndexOf(arguments, simpleArgument);
-        
-        return Array.IndexOf(arguments, complexArgument);
+        return Array.IndexOf(arguments, arguments.Contains(simpleArgument) ? simpleArgument : complexArgument);
     }
 }

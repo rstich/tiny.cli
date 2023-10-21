@@ -10,7 +10,7 @@ public class OutPutDirArgumentValidator : BaseValidator, IArgumentValidator
         if (NoArgumentProvided(arguments)) return null;
         if (TooManyArgumentsProvided(arguments)) return null;
         
-        int index = GetArgumentIndex(arguments, Parameter.OutPutDir.Simple, Parameter.OutPutDir.Complex);
+        var index = GetArgumentIndex(arguments, Parameter.OutPutDir.Simple, Parameter.OutPutDir.Complex);
         
         if (NoFileNameProvided(arguments, index)) return null;
         
@@ -26,15 +26,13 @@ public class OutPutDirArgumentValidator : BaseValidator, IArgumentValidator
             Message = $"Cannot use both {Parameter.OutPutDir.Simple} and {Parameter.OutPutDir.Complex}";
             return true;
         }
+
+        if (!TooManyValidatorArgumentsProvided(arguments, Parameter.OutPutDir.Simple, Parameter.OutPutDir.Complex))
+            return false;
         
-        if (TooManyValidatorArgumentsProvided(arguments, Parameter.OutPutDir.Simple, Parameter.OutPutDir.Complex))
-        {
-            IsValid = false;
-            Message = "Too many output directory parameters provided";
-            return true;
-        }
-        
-        return false;
+        IsValid = false;
+        Message = "Too many output directory parameters provided";
+        return true;
     }
 
     private bool NoArgumentProvided(string[] arguments)
@@ -47,13 +45,10 @@ public class OutPutDirArgumentValidator : BaseValidator, IArgumentValidator
     
     private bool NoFileNameProvided(string[] arguments, int index)
     {
-        if (index + 1 >= arguments.Length || arguments[index + 1].StartsWith("-"))
-        {
-            Message = $"Missing file name for parameter {arguments[index]}";
-            IsValid = false;
-            return true;
-        }
+        if (index + 1 < arguments.Length && !arguments[index + 1].StartsWith("-")) return false;
+        Message = $"Missing file name for parameter {arguments[index]}";
+        IsValid = false;
+        return true;
 
-        return false;
     }
 }

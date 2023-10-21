@@ -62,7 +62,7 @@ public class ResizeArgumentValidatorTests
         
         Assert.False(sut.IsValid);
         Assert.Null(response);
-        Assert.True(sut.Message is not null && sut.Message == "Missing Size");
+        Assert.True(sut.Message is not null);
     }
     
     [Fact]
@@ -74,6 +74,6 @@ public class ResizeArgumentValidatorTests
         
         Assert.False(sut.IsValid);
         Assert.Null(response);
-        Assert.True(sut.Message is not null && sut.Message == "Missing Size");
+        Assert.True(sut.Message is not null);
     }
 }

@@ -67,13 +67,10 @@ public class DirectoryArgumentValidator : BaseValidator, IArgumentValidator
 
     private bool NoFileNameProvided(string[] arguments)
     {
-        if (GetDirectory(arguments) is null)
-        {
-            Message = $"Missing directory name for parameter {Parameter.Directory.Simple}";
-            IsValid = false;
-            return true;
-        }
-        return false;
+        if (GetDirectory(arguments) is not null) return false;
+        Message = $"Missing directory name for parameter {Parameter.Directory.Simple}";
+        IsValid = false;
+        return true;
     }
 
     private string? GetDirectory(string[] arguments)

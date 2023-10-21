@@ -11,7 +11,7 @@ public class SingleFileArgumentValidator : BaseValidator, IArgumentValidator
         
         if (TooManyFileParametersProvided(arguments)) return null;
 
-        int index = GetArgumentIndex(arguments, Parameter.SingleFile.Simple, Parameter.SingleFile.Complex);
+        var index = GetArgumentIndex(arguments, Parameter.SingleFile.Simple, Parameter.SingleFile.Complex);
         
         if (NoFileNameProvided(arguments, index)) return null;
         
@@ -21,14 +21,12 @@ public class SingleFileArgumentValidator : BaseValidator, IArgumentValidator
 
     private bool NoFileNameProvided(string[] arguments, int index)
     {
-        if (index + 1 >= arguments.Length || arguments[index + 1].StartsWith("-"))
-        {
-            Message = $"Missing file name for parameter {arguments[index]}";
-            IsValid = false;
-            return true;
-        }
+        if (index + 1 < arguments.Length && !arguments[index + 1].StartsWith("-")) return false;
+        
+        Message = $"Missing file name for parameter {arguments[index]}";
+        IsValid = false;
+        return true;
 
-        return false;
     }
 
     private bool TooManyFileParametersProvided(string[] arguments)
@@ -39,15 +37,13 @@ public class SingleFileArgumentValidator : BaseValidator, IArgumentValidator
             IsValid = false;
             return true;
         }
-        
-        if (TooManyValidatorArgumentsProvided(arguments, Parameter.SingleFile.Simple, Parameter.SingleFile.Complex))
-        {
-            Message = "Too many file parameters provided";
-            IsValid = false;
-            return true;
-        }
 
-        return false;
+        if (!TooManyValidatorArgumentsProvided(arguments, Parameter.SingleFile.Simple, Parameter.SingleFile.Complex))
+            return false;
+        
+        Message = "Too many file parameters provided";
+        IsValid = false;
+        return true;
     }
 
     private bool NoFileParameterProvided(string[] arguments)

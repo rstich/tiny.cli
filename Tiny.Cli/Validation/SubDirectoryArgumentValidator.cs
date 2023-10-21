@@ -5,7 +5,7 @@ public class SubDirectoryArgumentValidator : BaseValidator, IArgumentValidator
     public bool IsValid { get; private set; }
     public string? Message { get; private set; }
 
-    public string? ValidateArguments(string[] arguments)
+    public string ValidateArguments(string[] arguments)
     {
         if (NoSubDirectoryParameterProvided(arguments)) return SearchOption.TopDirectoryOnly.ToString();
         if (TooManySubDirectoryParametersProvided(arguments)) return SearchOption.TopDirectoryOnly.ToString();

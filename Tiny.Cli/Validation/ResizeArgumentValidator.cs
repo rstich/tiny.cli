@@ -9,7 +9,7 @@ public class ResizeArgumentValidator : BaseValidator, IArgumentValidator
         if (NoArgumentProvided(arguments)) return null;
         if (TooManyArgumentsProvided(arguments)) return null;
         
-        int index = GetArgumentIndex(arguments, Parameter.Resize.Simple, Parameter.Resize.Complex);
+        var index = GetArgumentIndex(arguments, Parameter.Resize.Simple, Parameter.Resize.Complex);
         
         if (NoSizeParameterProvided(arguments, index)) return null;
         
@@ -19,14 +19,11 @@ public class ResizeArgumentValidator : BaseValidator, IArgumentValidator
 
     private bool NoSizeParameterProvided(string[] arguments, int index)
     {
-        if (index + 1 >= arguments.Length || arguments[index + 1].StartsWith("-"))
-        {
-            Message = "Missing Size for resize parameter";
-            IsValid = false;
-            return true;
-        }
+        if (index + 1 < arguments.Length && !arguments[index + 1].StartsWith("-")) return false;
+        Message = "Missing Size for resize parameter";
+        IsValid = false;
+        return true;
 
-        return false;
     }
 
     private bool TooManyArgumentsProvided(string[] arguments)
@@ -37,15 +34,13 @@ public class ResizeArgumentValidator : BaseValidator, IArgumentValidator
             Message = $"Cannot use both {Parameter.Resize.Simple} and {Parameter.Resize.Complex}";
             return true;
         }
+
+        if (!TooManyValidatorArgumentsProvided(arguments, Parameter.Resize.Simple, Parameter.Resize.Complex))
+            return false;
         
-        if (TooManyValidatorArgumentsProvided(arguments, Parameter.Resize.Simple, Parameter.Resize.Complex))
-        {
-            IsValid = false;
-            Message = "Too many resize parameters provided";
-            return true;
-        }
-        
-        return false;
+        IsValid = false;
+        Message = "Too many resize parameters provided";
+        return true;
     }
 
     private bool NoArgumentProvided(string[] arguments)

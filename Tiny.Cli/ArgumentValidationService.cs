@@ -11,7 +11,7 @@ public class ArgumentValidationService
     }
     public bool ValidateArguments(string[] arguments)
     {
-        bool argumentsAreValid = true;
+        var argumentsAreValid = true;
         foreach (var validator in _validators)
         {
             //ParseArguments Methode
