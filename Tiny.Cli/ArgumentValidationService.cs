@@ -9,7 +9,7 @@ public class ArgumentValidationService
     {
         _validators = validators;
     }
-    public void ValidateArguments(string[] arguments)
+    public bool ValidateArguments(string[] arguments)
     {
         bool argumentsAreValid = true;
         foreach (var validator in _validators)
@@ -25,14 +25,14 @@ public class ArgumentValidationService
             }
         }
 
-        if (argumentsAreValid)
+        if (!argumentsAreValid)
         {
-            return;
+            _validators.Select(v => v.Message)
+                .Where(v => v != null)
+                .ToList()
+                .ForEach(Console.WriteLine);
         }
 
-        _validators.Select(v => v.Message)
-            .Where(v => v != null)
-            .ToList()
-            .ForEach(Console.WriteLine);
+        return argumentsAreValid;
     }
 }

@@ -11,7 +11,7 @@ public class TinifyProcessingService
     
     public void Process(string[] arguments)
     {
-        _argumentValidationService.ValidateArguments(arguments);
+        bool argumentsValid = _argumentValidationService.ValidateArguments(arguments);
     }
     
     /*
