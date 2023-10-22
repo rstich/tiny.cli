@@ -1,6 +1,7 @@
-﻿using Tiny.Cli.Validation;
+﻿using Tiny.Cli.Misc;
+using Tiny.Cli.Validation;
 
-namespace Tiny.Cli;
+namespace Tiny.Cli.Service;
 
 public class ArgumentValidationService
 {

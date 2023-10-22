@@ -2,7 +2,7 @@ using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
 using Tiny.Cli.Validation;
 
-namespace Tiny.Cli;
+namespace Tiny.Cli.Misc;
 
 public static class ValidatorInstaller
 {

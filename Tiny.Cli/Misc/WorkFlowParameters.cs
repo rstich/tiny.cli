@@ -1,4 +1,4 @@
-﻿namespace Tiny.Cli;
+﻿namespace Tiny.Cli.Misc;
 
 public class WorkFlowParameters
 {

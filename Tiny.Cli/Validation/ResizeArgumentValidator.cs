@@ -1,4 +1,6 @@
-﻿namespace Tiny.Cli.Validation;
+﻿using Tiny.Cli.Misc;
+
+namespace Tiny.Cli.Validation;
 
 public class ResizeArgumentValidator : BaseValidator, IArgumentValidator
 {

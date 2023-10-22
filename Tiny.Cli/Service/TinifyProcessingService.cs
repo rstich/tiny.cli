@@ -1,6 +1,6 @@
 ﻿using TinifyAPI;
 
-namespace Tiny.Cli;
+namespace Tiny.Cli.Service;
 
 public class TinifyProcessingService
 {
