@@ -7,6 +7,7 @@ using Tiny.Cli.Service;
 var builder = Host.CreateApplicationBuilder();
 builder.Services.InstallArgumentValidators();
 builder.Services.AddSingleton<ArgumentValidationService>();
+builder.Services.AddSingleton<TinifyWorkFlowService>();
 builder.Services.AddSingleton<TinifyProcessingService>();
 var host = builder.Build();
 

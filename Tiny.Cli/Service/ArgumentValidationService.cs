@@ -10,7 +10,7 @@ public class ArgumentValidationService
     {
         _validators = validators;
     }
-    public bool ValidateArguments(string[] arguments)
+    public WorkFlowParameters ValidateArgumentsAndParseParameters(string[] arguments)
     {
         WorkFlowParameters parameters = new();
         var argumentsAreValid = true;
@@ -27,7 +27,9 @@ public class ArgumentValidationService
             .Where(v => v != null)
             .ToList()
             .ForEach(Console.WriteLine);
+
+        if (!argumentsAreValid) throw new InvalidParametersException();
         
-        return argumentsAreValid;
+        return parameters;
     }
 }
