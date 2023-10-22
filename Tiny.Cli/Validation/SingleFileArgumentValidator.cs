@@ -4,19 +4,19 @@ public class SingleFileArgumentValidator : BaseValidator, IArgumentValidator
 {
     public bool IsValid { get; private set; }
     public string? Message { get; private set; }
-
-    public string? ValidateArguments(string[] arguments)
+    public WorkFlowParameters ValidateArguments(string[] arguments, WorkFlowParameters parameters)
     {
-        if (NoFileParameterProvided(arguments)) return null;
+        if (NoFileParameterProvided(arguments)) return parameters;
         
-        if (TooManyFileParametersProvided(arguments)) return null;
+        if (TooManyFileParametersProvided(arguments)) return parameters;
 
         var index = GetArgumentIndex(arguments, Parameter.SingleFile.Simple, Parameter.SingleFile.Complex);
         
-        if (NoFileNameProvided(arguments, index)) return null;
+        if (NoFileNameProvided(arguments, index)) return parameters;
         
         IsValid = true;
-        return arguments[index + 1];
+        parameters.FilePath = arguments[index + 1];
+        return parameters;
     }
 
     private bool NoFileNameProvided(string[] arguments, int index)

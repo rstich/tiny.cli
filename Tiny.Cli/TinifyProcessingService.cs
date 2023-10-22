@@ -13,12 +13,13 @@ public class TinifyProcessingService
     
     public void Process(string[] arguments)
     {
-        if (EnvironmentSettingValid())
-        {
-            var argumentsValid = _argumentValidationService.ValidateArguments(arguments);
-        }
+        if (!EnvironmentSettingValid()) return;
+        
+        var argumentsValid = _argumentValidationService.ValidateArguments(arguments);
+        
+        if (!argumentsValid) return;   
     }
-    
+
     private static bool EnvironmentSettingValid()
     {
         var tinyKey = Environment.GetEnvironmentVariable("TINY_KEY");

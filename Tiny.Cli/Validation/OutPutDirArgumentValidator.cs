@@ -4,18 +4,18 @@ public class OutPutDirArgumentValidator : BaseValidator, IArgumentValidator
 {
     public bool IsValid { get; private set; }
     public string? Message { get; private set; }
-
-    public string? ValidateArguments(string[] arguments)
+    public WorkFlowParameters ValidateArguments(string[] arguments, WorkFlowParameters parameters)
     {
-        if (NoArgumentProvided(arguments)) return null;
-        if (TooManyArgumentsProvided(arguments)) return null;
+        if (NoArgumentProvided(arguments)) return parameters;
+        if (TooManyArgumentsProvided(arguments)) return parameters;
         
         var index = GetArgumentIndex(arguments, Parameter.OutPutDir.Simple, Parameter.OutPutDir.Complex);
         
-        if (NoFileNameProvided(arguments, index)) return null;
+        if (NoFileNameProvided(arguments, index)) return parameters;
         
         IsValid = true;
-        return arguments[index + 1];
+        parameters.OutPutDir = arguments[index + 1];
+        return parameters;
     }
 
     private bool TooManyArgumentsProvided(string[] arguments)

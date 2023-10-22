@@ -4,15 +4,18 @@ public class SubDirectoryArgumentValidator : BaseValidator, IArgumentValidator
 {
     public bool IsValid { get; private set; }
     public string? Message { get; private set; }
-
-    public string ValidateArguments(string[] arguments)
+    public WorkFlowParameters ValidateArguments(string[] arguments, WorkFlowParameters parameters)
     {
-        if (NoSubDirectoryParameterProvided(arguments)) return SearchOption.TopDirectoryOnly.ToString();
-        if (TooManySubDirectoryParametersProvided(arguments)) return SearchOption.TopDirectoryOnly.ToString();
-
+        if (TooManySubDirectoryParametersProvided(arguments)) return parameters;
+        
         IsValid = true;
-        return SearchOption.AllDirectories.ToString();
+        parameters.SearchOption = SearchOption.AllDirectories;
+        
+        if (NoSubDirectoryParameterProvided(arguments)) parameters.SearchOption = SearchOption.TopDirectoryOnly;
+        
+        return parameters;
     }
+
 
     private bool NoSubDirectoryParameterProvided(string[] arguments)
     {

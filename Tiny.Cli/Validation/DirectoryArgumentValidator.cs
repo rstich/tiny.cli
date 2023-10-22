@@ -6,24 +6,29 @@ public class DirectoryArgumentValidator : BaseValidator, IArgumentValidator
 
     public string? Message { get; private set;}
 
-    public string? ValidateArguments(string[] arguments)
+    public WorkFlowParameters ValidateArguments(string[] arguments, WorkFlowParameters parameters)
     {
-        if (NoDirectoryArgumentProvided(arguments)) return null;
-        if (TooManyDirectoryParametersProvided(arguments)) return null;
-        if (TooManyCurrentDirectoryParametersProvided(arguments)) return null;
+        if (NoDirectoryArgumentProvided(arguments)) return parameters;
+        if (TooManyDirectoryParametersProvided(arguments)) return parameters;
+        if (TooManyCurrentDirectoryParametersProvided(arguments)) return parameters;
         if (HasParameterMissMatch(arguments))
         {
             IsValid = false;
             Message = "Parameter mismatch";
-            return null;
+            return parameters;
         }
 
-        if (CurrentDirectoryIsProvided(arguments)) return Environment.CurrentDirectory;
+        if (CurrentDirectoryIsProvided(arguments))
+        {
+            parameters.Directory = Environment.CurrentDirectory;
+            return parameters;
+        }
         
-        if (NoFileNameProvided(arguments)) return null;
+        if (NoFileNameProvided(arguments)) return parameters;
         
         IsValid = true;
-        return GetDirectory(arguments);
+        parameters.Directory = GetDirectory(arguments);
+        return parameters;
     }
     
     private bool NoDirectoryArgumentProvided(string[] arguments)

@@ -4,17 +4,18 @@ public class ResizeArgumentValidator : BaseValidator, IArgumentValidator
 {
     public bool IsValid { get; private set;  }
     public string? Message { get; private set; }
-    public string? ValidateArguments(string[] arguments)
+    public WorkFlowParameters ValidateArguments(string[] arguments, WorkFlowParameters parameters)
     {
-        if (NoArgumentProvided(arguments)) return null;
-        if (TooManyArgumentsProvided(arguments)) return null;
+        if (NoArgumentProvided(arguments)) return parameters;
+        if (TooManyArgumentsProvided(arguments)) return parameters;
         
         var index = GetArgumentIndex(arguments, Parameter.Resize.Simple, Parameter.Resize.Complex);
         
-        if (NoSizeParameterProvided(arguments, index)) return null;
+        if (NoSizeParameterProvided(arguments, index)) return parameters;
         
-        IsValid = true;
-        return arguments[index + 1];
+        ParseResizeParameter(arguments, parameters, index);
+
+        return parameters;
     }
 
     private bool NoSizeParameterProvided(string[] arguments, int index)
@@ -49,5 +50,18 @@ public class ResizeArgumentValidator : BaseValidator, IArgumentValidator
         
         IsValid = true;
         return true;
+    }
+    
+    private void ParseResizeParameter(string[] arguments, WorkFlowParameters parameters, int index)
+    {
+        IsValid = int.TryParse(arguments[index + 1], out var size);
+
+        if (!IsValid)
+        {
+            Message = $"Invalid size provided for {Parameter.Resize.Simple} or {Parameter.Resize.Complex}";
+            return;
+        }
+        
+        parameters.Resize = size;
     }
 }

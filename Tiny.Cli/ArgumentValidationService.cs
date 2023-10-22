@@ -11,14 +11,11 @@ public class ArgumentValidationService
     }
     public bool ValidateArguments(string[] arguments)
     {
+        WorkFlowParameters parameters = new();
         var argumentsAreValid = true;
         foreach (var validator in _validators)
         {
-            //ParseArguments Methode
-            //GetResult Methode
-            //ValidationResult Objekt
-            //ValidationError Property
-            validator.ValidateArguments(arguments);
+            validator.ValidateArguments(arguments, parameters);
             if (!validator.IsValid)
             {
                 argumentsAreValid = false;

@@ -9,14 +9,15 @@ public class SingleFileArgumentValidatorTests
     public void NoArguments_Returns_Null()
     {
         var arguments = Array.Empty<string>();
+        var workFlowParams = new WorkFlowParameters();
         var validator = new SingleFileArgumentValidator();
         
-        var response = validator.ValidateArguments(arguments);
+        var response = validator.ValidateArguments(arguments, workFlowParams);
         var isValid = validator.IsValid;
         var message = validator.Message;
         
         Assert.True(isValid);
-        Assert.Null(response);
+        Assert.Null(response.FilePath);
         Assert.Null(message);
     }
     
@@ -24,14 +25,15 @@ public class SingleFileArgumentValidatorTests
     public void WrongArguments_Returns_Null()
     {
         var arguments = new []{ "-unsupported"};
+        var workFlowParams = new WorkFlowParameters();
         var validator = new SingleFileArgumentValidator();
         
-        var response = validator.ValidateArguments(arguments);
+        var response = validator.ValidateArguments(arguments, workFlowParams);
         var isValid = validator.IsValid;
         var message = validator.Message;
         
         Assert.True(isValid);
-        Assert.Null(response);
+        Assert.Null(response.FilePath);
         Assert.Null(message);
     }
     
@@ -40,14 +42,15 @@ public class SingleFileArgumentValidatorTests
     {
         string fileName = "test.jpg";
         var arguments = new[] { Parameter.SingleFile.Simple, fileName };
+        var workFlowParams = new WorkFlowParameters();
         var validator = new SingleFileArgumentValidator();
         
-        var response = validator.ValidateArguments(arguments);
+        var response = validator.ValidateArguments(arguments, workFlowParams);
         var isValid = validator.IsValid;
         var message = validator.Message;
         
         Assert.True(isValid);
-        Assert.True(response is not null && response == fileName);
+        Assert.True(response.FilePath == fileName);
         Assert.Null(message);
     }
     
@@ -56,14 +59,15 @@ public class SingleFileArgumentValidatorTests
     {
         string fileName = "test.jpg";
         var arguments = new[] { Parameter.SingleFile.Complex, fileName };
+        var workFlowParams = new WorkFlowParameters();
         var validator = new SingleFileArgumentValidator();
         
-        var response = validator.ValidateArguments(arguments);
+        var response = validator.ValidateArguments(arguments, workFlowParams);
         var isValid = validator.IsValid;
         var message = validator.Message;
         
         Assert.True(isValid);
-        Assert.True(response is not null && response == fileName);
+        Assert.True(response.FilePath == fileName);
         Assert.Null(message);
     }
     
@@ -71,14 +75,15 @@ public class SingleFileArgumentValidatorTests
     public void SingleFileArgument_Simple_MissingFileName_Returns_Null()
     {
         var arguments = new[] { Parameter.SingleFile.Simple };
+        var workFlowParams = new WorkFlowParameters();
         var validator = new SingleFileArgumentValidator();
         
-        var response = validator.ValidateArguments(arguments);
+        var response = validator.ValidateArguments(arguments, workFlowParams);
         var isValid = validator.IsValid;
         var message = validator.Message;
         
         Assert.False(isValid);
-        Assert.Null(response);
+        Assert.Null(response.FilePath);
         Assert.True(message is not null);
     }
     
@@ -86,14 +91,15 @@ public class SingleFileArgumentValidatorTests
     public void SingleFileArgument_Complex_MissingFileName_Returns_Null()
     {
         var arguments = new[] { Parameter.SingleFile.Complex };
+        var workFlowParams = new WorkFlowParameters();
         var validator = new SingleFileArgumentValidator();
         
-        var response = validator.ValidateArguments(arguments);
+        var response = validator.ValidateArguments(arguments, workFlowParams);
         var isValid = validator.IsValid;
         var message = validator.Message;
         
         Assert.False(isValid);
-        Assert.Null(response);
+        Assert.Null(response.FilePath);
         Assert.True(message is not null);
     }
     
@@ -101,14 +107,15 @@ public class SingleFileArgumentValidatorTests
     public void ToManyFileArguments_Returns_Null()
     {
         var arguments = new[] { Parameter.SingleFile.Complex, "test.jpg", Parameter.SingleFile.Simple, "test2.jpg" };
+        var workFlowParams = new WorkFlowParameters();
         var validator = new SingleFileArgumentValidator();
         
-        var response = validator.ValidateArguments(arguments);
+        var response = validator.ValidateArguments(arguments, workFlowParams);
         var isValid = validator.IsValid;
         var message = validator.Message;
         
         Assert.False(isValid);
-        Assert.Null(response);
+        Assert.Null(response.FilePath);
         Assert.True(message is not null);
     }
     
@@ -116,14 +123,15 @@ public class SingleFileArgumentValidatorTests
     public void DoubleFileArguments_Simple_Returns_Null()
     {
         var arguments = new[] { Parameter.SingleFile.Simple, "test.jpg", Parameter.SingleFile.Simple, "test2.jpg" };
+        var workFlowParams = new WorkFlowParameters();
         var validator = new SingleFileArgumentValidator();
         
-        var response = validator.ValidateArguments(arguments);
+        var response = validator.ValidateArguments(arguments, workFlowParams);
         var isValid = validator.IsValid;
         var message = validator.Message;
         
         Assert.False(isValid);
-        Assert.Null(response);
+        Assert.Null(response.FilePath);
         Assert.True(message is not null);
     }
     
@@ -131,14 +139,15 @@ public class SingleFileArgumentValidatorTests
     public void DoubleFileArguments_Complex_Returns_Null()
     {
         var arguments = new[] { Parameter.SingleFile.Complex, "test.jpg", Parameter.SingleFile.Complex, "test2.jpg" };
+        var workFlowParams = new WorkFlowParameters();
         var validator = new SingleFileArgumentValidator();
         
-        var response = validator.ValidateArguments(arguments);
+        var response = validator.ValidateArguments(arguments, workFlowParams);
         var isValid = validator.IsValid;
         var message = validator.Message;
         
         Assert.False(isValid);
-        Assert.Null(response);
+        Assert.Null(response.FilePath);
         Assert.True(message is not null);
     }
 }

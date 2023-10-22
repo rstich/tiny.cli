@@ -5,5 +5,5 @@ public interface IArgumentValidator
     bool IsValid { get; }
     string? Message { get; }
     
-    public string? ValidateArguments(string[] arguments);
+    public WorkFlowParameters ValidateArguments(string[] arguments, WorkFlowParameters parameters);
 }
