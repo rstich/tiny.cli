@@ -3,29 +3,35 @@ using Tiny.Cli.Misc;
 
 namespace Tiny.Cli.Service;
 
-public class TinifyWorkFlowService
+public class TinifyWorkFlowProcessor
 {
     public void Run(WorkFlowParameters parameters)
     {
-        // Co Pilot created, nice but not what I want
-        // TODO Refactor this
-        var files = Directory.GetFiles(parameters.Directory, "*.jpg", parameters.SearchOption ?? SearchOption.TopDirectoryOnly);
-        var count = 0;
-        foreach (var file in files)
+        if (parameters.FilePath is not null && parameters.Directory is not null)
         {
-            var source = Tinify.FromFile(file);
-            var resized = source.Resize(new
-            {
-                method = "scale",
-                width = parameters.Resize
-            });
-            var path = Path.Combine(parameters.OutPutDir ?? parameters.Directory, Path.GetFileName(file));
-            resized.ToFile(path);
-            count++;
+            throw new InvalidParametersException("Cannot use both file and directory parameters");
         }
-        Console.WriteLine($"Tinified {count} images");
+        
+        if (parameters.FilePath is not null)
+        {
+            TinifyFile(parameters);
+        }
+        else
+        {
+            TinifyDirectory(parameters);
+        }
     }
-    
+
+    private void TinifyDirectory(WorkFlowParameters parameters)
+    {
+        
+    }
+
+    private void TinifyFile(WorkFlowParameters parameters)
+    {
+        
+    }
+
     /*
      * try
 {

@@ -6,12 +6,12 @@ namespace Tiny.Cli.Service;
 public class TinifyProcessingService
 {
     private readonly ArgumentValidationService _argumentValidationService;
-    private readonly TinifyWorkFlowService _tinifyWorkFlowService;
+    private readonly TinifyWorkFlowProcessor _tinifyWorkFlowProcessor;
 
-    public TinifyProcessingService(ArgumentValidationService argumentValidationService, TinifyWorkFlowService tinifyWorkFlowService)
+    public TinifyProcessingService(ArgumentValidationService argumentValidationService, TinifyWorkFlowProcessor tinifyWorkFlowProcessor)
     {
         _argumentValidationService = argumentValidationService;
-        _tinifyWorkFlowService = tinifyWorkFlowService;
+        _tinifyWorkFlowProcessor = tinifyWorkFlowProcessor;
     }
     
     public void Process(string[] arguments)
@@ -21,7 +21,7 @@ public class TinifyProcessingService
         try
         {
             var workFlowParameters = _argumentValidationService.ValidateArgumentsAndParseParameters(arguments);
-            _tinifyWorkFlowService.Run(workFlowParameters);
+            _tinifyWorkFlowProcessor.Run(workFlowParameters);
         }
         catch (InvalidParametersException e)
         {
