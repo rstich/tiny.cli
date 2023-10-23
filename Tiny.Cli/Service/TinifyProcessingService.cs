@@ -16,32 +16,17 @@ public class TinifyProcessingService
     
     public void Process(string[] arguments)
     {
-        if (!EnvironmentSettingValid()) return;
-
         try
         {
             var workFlowParameters = _argumentValidationService.ValidateArgumentsAndParseParameters(arguments);
             _tinifyWorkFlowProcessor.Run(workFlowParameters);
         }
-        catch (InvalidParametersException e)
+        catch (InvalidParametersException)
         {
-            Console.WriteLine("Invalid parameters");
         }
-    }
-
-    private static bool EnvironmentSettingValid()
-    {
-        // concept for mocking this. Currently only solution is to write a wrapper class and inject it
-        var tinyKey = Environment.GetEnvironmentVariable("TINY_KEY");
-
-        if (tinyKey is null)
+        catch (Exception ex)
         {
-            Console.WriteLine("Please set the TINY_KEY environment variable by typing:");
-            Console.WriteLine("set TINY_KEY=your_api_key");
-            return false;
+            Console.WriteLine(ex.Message);
         }
-
-        Tinify.Key = tinyKey; // Your API key4
-        return true;
     }
 }
