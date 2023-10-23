@@ -7,4 +7,6 @@ public class WorkFlowParameters
     public string? FilePath { get; set; }
     public int? Resize { get; set; }
     public string? OutPutDir { get; set; }
+    
+    public string ApiKey { get; set; } = string.Empty;
 }

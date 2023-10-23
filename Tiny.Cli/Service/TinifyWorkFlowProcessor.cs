@@ -9,6 +9,8 @@ public class TinifyWorkFlowProcessor
     {
         try
         {
+            Tinify.Key = parameters.ApiKey;
+            
             if (parameters.FilePath is not null)
             {
                 TinifyFile(parameters);

@@ -1,5 +1,4 @@
-﻿using TinifyAPI;
-using Tiny.Cli.Misc;
+﻿using Tiny.Cli.Misc;
 
 namespace Tiny.Cli.Validation;
 
@@ -21,7 +20,7 @@ public class ApiKeyValidator : IArgumentValidator
             return parameters;
         }
 
-        Tinify.Key = tinyKey; // Your API key4
+        parameters.ApiKey = tinyKey; // Your API key4
         
         IsValid = true;
         return parameters;
