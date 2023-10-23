@@ -31,6 +31,7 @@ public class TinifyProcessingService
 
     private static bool EnvironmentSettingValid()
     {
+        // concept for mocking this. Currently only solution is to write a wrapper class and inject it
         var tinyKey = Environment.GetEnvironmentVariable("TINY_KEY");
 
         if (tinyKey is null)
