@@ -6,10 +6,17 @@ public class ApiKeyValidator : IArgumentValidator
 {
     public bool IsValid { get; private set; }
     public string? Message { get; private set; }
+    
+    private readonly EnvironmentWrapper _environmentWrapper;
+    public ApiKeyValidator(EnvironmentWrapper environmentWrapper)
+    {
+        _environmentWrapper = environmentWrapper;
+    }
+    
     public WorkFlowParameters ValidateArguments(string[] arguments, WorkFlowParameters parameters)
     {
-        // concept for mocking this. Currently only solution is to write a wrapper class and inject it
-        var tinyKey = Environment.GetEnvironmentVariable("TINY_KEY");
+        // Currently only solution is to write a wrapper class and inject it to be able to mock this
+        var tinyKey = _environmentWrapper.GetEnvironmentVariable();
 
         if (tinyKey is null)
         {
