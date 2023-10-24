@@ -1,10 +1,9 @@
-﻿using Tiny.Cli;
-using Tiny.Cli.Misc;
+﻿using Tiny.Cli.Misc;
 using Tiny.Cli.Validation;
 
 namespace tiny.tests.AttributeValidatorTests;
 
-public class SubDirectoryArgumentValidatorTets
+public class SubDirectoryArgumentValidatorTests
 {
     [Fact]
     public void NoArguments_Returns_TopDirectoryOnly()
