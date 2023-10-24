@@ -14,12 +14,12 @@ public class TinifyProcessingService
         _tinifyWorkFlowProcessor = tinifyWorkFlowProcessor;
     }
     
-    public void Process(string[] arguments)
+    public async Task Process(string[] arguments)
     {
         try
         {
             var workFlowParameters = _argumentValidationService.ValidateArgumentsAndParseParameters(arguments);
-            _tinifyWorkFlowProcessor.Run(workFlowParameters);
+            await _tinifyWorkFlowProcessor.Run(workFlowParameters);
         }
         catch (InvalidParametersException)
         {

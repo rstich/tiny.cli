@@ -8,6 +8,7 @@ public class OutPutDirArgumentValidator : BaseValidator, IArgumentValidator
     public string? Message { get; private set; }
     public WorkFlowParameters ValidateArguments(string[] arguments, WorkFlowParameters parameters)
     {
+        parameters.OutPutDir = Environment.CurrentDirectory;
         if (NoArgumentProvided(arguments)) return parameters;
         if (TooManyArgumentsProvided(arguments)) return parameters;
         

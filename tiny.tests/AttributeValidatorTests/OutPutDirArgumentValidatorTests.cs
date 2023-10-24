@@ -7,7 +7,7 @@ namespace tiny.tests.AttributeValidatorTests;
 public class OutPutDirArgumentValidatorTests
 {
     [Fact]
-    public void NoArguments_Returns_Null()
+    public void NoArguments_Returns_CurrentDir()
     {
         var args = Array.Empty<string>();
         var workFlowParams = new WorkFlowParameters();
@@ -15,7 +15,7 @@ public class OutPutDirArgumentValidatorTests
         var response = sut.ValidateArguments(args, workFlowParams);
         
         Assert.True(sut.IsValid);
-        Assert.Null(response.OutPutDir);
+        Assert.True(response.OutPutDir == Environment.CurrentDirectory);
         Assert.Null(sut.Message);
     }
     
@@ -28,7 +28,7 @@ public class OutPutDirArgumentValidatorTests
         var response = sut.ValidateArguments(args, workFlowParams);
         
         Assert.True(sut.IsValid);
-        Assert.Null(response.OutPutDir);
+        Assert.True(response.OutPutDir == Environment.CurrentDirectory);
         Assert.Null(sut.Message);
     }
     

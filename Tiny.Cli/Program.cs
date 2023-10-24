@@ -12,4 +12,4 @@ builder.Services.AddSingleton<TinifyProcessingService>();
 var host = builder.Build();
 
 var service = host.Services.GetRequiredService<TinifyProcessingService>();
-service.Process(args);
+await service.Process(args);

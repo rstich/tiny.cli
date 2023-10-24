@@ -5,19 +5,20 @@ namespace Tiny.Cli.Service;
 
 public class TinifyWorkFlowProcessor
 {
-    public void Run(WorkFlowParameters parameters)
+    public async Task Run(WorkFlowParameters parameters)
     {
         try
         {
             Tinify.Key = parameters.ApiKey;
+            await Tinify.Validate();
             
             if (parameters.FilePath is not null)
             {
-                TinifyFile(parameters);
+                await TinifyFile(parameters);
             }
             else
             {
-                TinifyDirectory(parameters);
+                await TinifyDirectory(parameters);
             }
         }
         catch (DirectoryNotFoundException ex)
@@ -38,12 +39,12 @@ public class TinifyWorkFlowProcessor
         Console.WriteLine($"Compressions this month: {compressionsThisMonth}");
     }
     
-    private void TinifyFile(WorkFlowParameters parameters)
+    private async Task TinifyFile(WorkFlowParameters parameters)
     {
-        TinifyFile(parameters.FilePath!, parameters.OutPutDir!, parameters.Resize);
+        await TinifyFile(parameters.FilePath!, parameters.OutPutDir!, parameters.Resize);
     }
     
-    private async void TinifyFile(string filePath, string outputDir, int? resize)
+    private async Task TinifyFile(string filePath, string outputDir, int? resize)
     {
         Console.WriteLine($"Optimizing {filePath}");
         var source = Tinify.FromFile(filePath);
@@ -56,7 +57,7 @@ public class TinifyWorkFlowProcessor
         await source.ToFile(Path.Combine(outputDir, Path.GetFileName(filePath)));
     }
 
-    private void TinifyDirectory(WorkFlowParameters parameters)
+    private async Task TinifyDirectory(WorkFlowParameters parameters)
     {
         var files = Directory.GetFiles(parameters.Directory!, "*.*", (SearchOption)parameters.SearchOption!)
             .Where(file => file.EndsWith(".png") || file.EndsWith(".jpg") || file.EndsWith(".jpeg"));
@@ -75,7 +76,7 @@ public class TinifyWorkFlowProcessor
             var index = fileEnum.IndexOf(file) + 1;
             Console.WriteLine($"{index}/{filesCount} Optimizing {file}");
 
-            TinifyFile(file, parameters.OutPutDir!, parameters.Resize);
+            await TinifyFile(file, parameters.OutPutDir!, parameters.Resize);
         }
     }
 
