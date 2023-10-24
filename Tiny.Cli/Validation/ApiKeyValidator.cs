@@ -27,7 +27,7 @@ public class ApiKeyValidator : IArgumentValidator
             return parameters;
         }
 
-        parameters.ApiKey = tinyKey; // Your API key4
+        parameters.ApiKey = tinyKey; // Your API key
         
         IsValid = true;
         return parameters;
