@@ -10,6 +10,13 @@
         <ToolCommandName>tiny</ToolCommandName>
         <PackageOutputPath>./nupkg</PackageOutputPath>
         <PackageReadmeFile>README.md</PackageReadmeFile>
+        <PackageLicenseFile>LICENSE</PackageLicenseFile>
+        <Description>CLI Tool to access tinypng.com API</Description>
+        <PackageReleaseNotes>Initial Release</PackageReleaseNotes>
+        <RepositoryUrl>https://github.com/rstich/tiny.cli</RepositoryUrl>
+        <Authors>Roger Stich</Authors>
+        <PackageTags>tinypng, image, compression</PackageTags>
+        <RepositoryType>git</RepositoryType>
     </PropertyGroup>
 
     <ItemGroup>
@@ -20,6 +27,8 @@
       <PackageReference Include="SixLabors.ImageSharp" Version="3.0.2" />
       <PackageReference Include="Tinify" Version="1.6.0" />
         <None Include="../README.md" Pack="true" PackagePath="\"/>
+        <None Include="../LICENSE" Pack="true" PackagePath=""/>
+        <None Remove="LICENSE.txt" />
     </ItemGroup>
 
 </Project>

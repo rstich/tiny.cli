@@ -22,5 +22,3 @@ Set the API Key as Environment Variable TINY_KEY
 There is a check for the image size before resizing. 
 If its smaller than the resize value, it will not be resized to safe compressions.
 
-```
-dotnet tool install --global --add-source ./nupkg tiny.cli
