@@ -40,7 +40,7 @@ public class ArgumentValidatorTests
     [Fact]
     public void InValidValidator_ThrowsException()
     {
-        var testData = CreateCollectionOfValidators(10, true, 2);
+        var testData = CreateCollectionOfValidators(10, true);
         var sut = new ArgumentValidationService(testData);
         var arguments = new []{Parameter.Help.Simple};
         
