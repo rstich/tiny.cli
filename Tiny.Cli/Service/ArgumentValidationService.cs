@@ -12,6 +12,8 @@ public class ArgumentValidationService
     }
     public WorkFlowParameters ValidateArgumentsAndParseParameters(string[] arguments)
     {
+        if (arguments.Length == 0) throw new NoArgumentsProvidedException();
+        
         WorkFlowParameters parameters = new();
         var argumentsAreValid = true;
         foreach (var validator in _validators)

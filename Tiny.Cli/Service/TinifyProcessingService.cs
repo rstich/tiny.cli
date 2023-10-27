@@ -1,5 +1,4 @@
-﻿using TinifyAPI;
-using Tiny.Cli.Misc;
+﻿using Tiny.Cli.Misc;
 
 namespace Tiny.Cli.Service;
 
@@ -23,6 +22,10 @@ public class TinifyProcessingService
         }
         catch (InvalidParametersException)
         {
+        }
+        catch (NoArgumentsProvidedException)
+        {
+            Console.WriteLine($"No arguments provided, type tiny {Parameter.Help.Simple} for more information.");
         }
         catch (Exception ex)
         {
