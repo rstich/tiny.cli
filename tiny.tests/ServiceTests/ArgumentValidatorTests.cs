@@ -28,11 +28,21 @@ public class ArgumentValidatorTests
     }
     
     [Fact]
+    public void NoArguments_ThrowsException()
+    {
+        var testData = CreateCollectionOfValidators(10);
+        var sut = new ArgumentValidationService(testData);
+        var arguments = Array.Empty<string>();
+        
+        Assert.Throws<NoArgumentsProvidedException>(() => sut.ValidateArgumentsAndParseParameters(arguments));
+    }
+    
+    [Fact]
     public void InValidValidator_ThrowsException()
     {
         var testData = CreateCollectionOfValidators(10, true, 2);
         var sut = new ArgumentValidationService(testData);
-        var arguments = Array.Empty<string>();
+        var arguments = new []{Parameter.Help.Simple};
         
         Assert.Throws<InvalidParametersException>(() => sut.ValidateArgumentsAndParseParameters(arguments));
     }
@@ -42,7 +52,7 @@ public class ArgumentValidatorTests
     {
         var testData = CreateCollectionOfValidators(10);
         var sut = new ArgumentValidationService(testData);
-        var arguments = Array.Empty<string>();
+        var arguments = new []{Parameter.Help.Simple};
         var response = sut.ValidateArgumentsAndParseParameters(arguments);
 
         Assert.NotNull(response);
