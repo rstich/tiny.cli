@@ -8,35 +8,27 @@ namespace Tiny.Cli.Service;
 
 public class VersionService
 {
-    private readonly string _cacheResourceName = "cache.txt";
-    private readonly TimeSpan _cacheDuration = TimeSpan.FromDays(3);
+    private readonly CacheObjectManager _cacheObjectManager;
+    public VersionService(CacheObjectManager cacheObjectManager)
+    {
+        _cacheObjectManager = cacheObjectManager;
+    }
+    
     public async Task CheckAndUpdateVersion()
     {
-        var versionCheckNeeded = await VersionCheckHasToPerform();
+        var versionCheckNeeded = await _cacheObjectManager.CacheExpired();
         if(!versionCheckNeeded) return;
         
-        var comparsionResult = await CompareRunningVersionWithNuget();
-        if (comparsionResult < 0)
+        var comparisonResult = await CompareRunningVersionWithNuget();
+        if (comparisonResult < 0)
         {
             Console.WriteLine("There is a newer version of the tool available. Would you like to update? y/n");
             var input = Console.ReadLine();
             await UpdateVersion(input);
         }
-
-        await UpdateCache();
-    }
-
-    private Task<bool> VersionCheckHasToPerform()
-    {
-        // Access the embedded resource
-        using var stream = File.OpenRead(_cacheResourceName);
         
-        using var reader = new StreamReader(stream);
-        var timestampStr = reader.ReadLine();
-
-        if (!DateTime.TryParse(timestampStr, out var lastCheckTime)) return Task.FromResult(true);
-
-        return Task.FromResult(DateTime.Now - lastCheckTime > _cacheDuration);
+        CacheObjectManager.ConfigurationObject.LastUpdateCheck = DateTime.Now;
+        await _cacheObjectManager.UpdateCache();
     }
 
     private async Task<int> CompareRunningVersionWithNuget()
@@ -82,13 +74,6 @@ public class VersionService
             Console.WriteLine("Updating...");
             await UpdateTool();
         }
-    }
-
-    private async Task UpdateCache()
-    {
-        await using Stream? stream = File.OpenWrite(_cacheResourceName);
-        await using StreamWriter writer = new StreamWriter(stream ?? throw new InvalidOperationException());
-        await writer.WriteAsync($"{DateTime.Now}\n");
     }
 
     private async Task UpdateTool()

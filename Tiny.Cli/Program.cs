@@ -5,6 +5,7 @@ using Tiny.Cli.Service;
 
 var builder = Host.CreateApplicationBuilder();
 builder.Services.AddSingleton<EnvironmentWrapper>();
+builder.Services.AddSingleton<CacheObjectManager>();
 builder.Services.AddSingleton<VersionService>();
 builder.Services.InstallArgumentValidators();
 builder.Services.AddSingleton<ArgumentValidationService>();
