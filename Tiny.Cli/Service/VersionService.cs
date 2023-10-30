@@ -8,18 +8,37 @@ namespace Tiny.Cli.Service;
 
 public class VersionService
 {
+    private readonly string _cacheResourceName = "cache.txt";
+    private readonly TimeSpan _cacheDuration = TimeSpan.FromDays(3);
     public async Task CheckAndUpdateVersion()
     {
-        var comparsionResult = await CompareRunningVersionWithNuget();
+        var versionCheckNeeded = await VersionCheckHasToPerform();
+        if(!versionCheckNeeded) return;
         
+        var comparsionResult = await CompareRunningVersionWithNuget();
         if (comparsionResult < 0)
         {
             Console.WriteLine("There is a newer version of the tool available. Would you like to update? y/n");
             var input = Console.ReadLine();
             await UpdateVersion(input);
         }
+
+        await UpdateCache();
     }
-    
+
+    private Task<bool> VersionCheckHasToPerform()
+    {
+        // Access the embedded resource
+        using var stream = File.OpenRead(_cacheResourceName);
+        
+        using var reader = new StreamReader(stream);
+        var timestampStr = reader.ReadLine();
+
+        if (!DateTime.TryParse(timestampStr, out var lastCheckTime)) return Task.FromResult(true);
+
+        return Task.FromResult(DateTime.Now - lastCheckTime > _cacheDuration);
+    }
+
     private async Task<int> CompareRunningVersionWithNuget()
     {
         Assembly? assembly = Assembly.GetEntryAssembly();
@@ -61,11 +80,18 @@ public class VersionService
         if (input is not null && input.Equals("y", StringComparison.OrdinalIgnoreCase))
         {
             Console.WriteLine("Updating...");
-            await Update();
+            await UpdateTool();
         }
     }
 
-    private async Task Update()
+    private async Task UpdateCache()
+    {
+        await using Stream? stream = File.OpenWrite(_cacheResourceName);
+        await using StreamWriter writer = new StreamWriter(stream ?? throw new InvalidOperationException());
+        await writer.WriteAsync($"{DateTime.Now}\n");
+    }
+
+    private async Task UpdateTool()
     {
         var process = new Process
         {
