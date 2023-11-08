@@ -13,6 +13,7 @@ Options:
  * -d, --dir [directory]  Optimize all images in the specific directory
  * -o, --out [directory]  Output directory for optimized images
  * -r, --resize [size]    resize to specific size (only one number)
+ * -u, --update           check if new version is available (will be done automatically once a week)
 
 Installation
 --
