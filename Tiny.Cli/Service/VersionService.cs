@@ -2,6 +2,7 @@
 using System.Reflection;
 using NuGet.Configuration;
 using NuGet.Protocol.Core.Types;
+using Tiny.Cli.Misc;
 using NullLogger = NuGet.Common.NullLogger;
 
 namespace Tiny.Cli.Service;
@@ -14,9 +15,9 @@ public class VersionService
         _cacheObjectManager = cacheObjectManager;
     }
     
-    public async Task CheckAndUpdateVersion()
+    public async Task CheckAndUpdateVersion(string[] args)
     {
-        var versionCheckNeeded = await _cacheObjectManager.CacheExpired();
+        var versionCheckNeeded = await _cacheObjectManager.CacheExpired() || await UpdateParameterIsSet(args);
         if(!versionCheckNeeded) return;
         
         var comparisonResult = await CompareRunningVersionWithNuget();
@@ -29,6 +30,11 @@ public class VersionService
         
         CacheObjectManager.ConfigurationObject.LastUpdateCheck = DateTime.Now;
         await _cacheObjectManager.UpdateCache();
+    }
+
+    private Task<bool> UpdateParameterIsSet(string[] args)
+    {
+        return Task.FromResult(args.Contains(Parameter.Update.Simple) || args.Contains(Parameter.Update.Complex));
     }
 
     private async Task<int> CompareRunningVersionWithNuget()

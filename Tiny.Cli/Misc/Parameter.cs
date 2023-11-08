@@ -13,6 +13,7 @@ public abstract class Parameter
                                                      -d, --dir <directory>  Optimize all images in the specific directory
                                                      -o, --out <directory>  Output directory for optimized images
                                                      -r, --resize <size>    resize to specific size (only one number)
+                                                     -u, --update <size>    check if new version is available (will be done automatically once a week)
                                              """;
     
     public abstract record Help
@@ -55,5 +56,11 @@ public abstract class Parameter
     {
         public static string Simple => "-r";
         public static string Complex => "--resize";
+    }
+
+    public abstract record Update
+    {
+        public static string Simple => "-u";
+        public static string Complex => "--update";
     }
 }

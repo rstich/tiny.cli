@@ -14,7 +14,7 @@ builder.Services.AddSingleton<TinifyProcessingService>();
 var host = builder.Build();
 
 var version = host.Services.GetRequiredService<VersionService>();
-await version.CheckAndUpdateVersion();
+await version.CheckAndUpdateVersion(args);
 
 var service = host.Services.GetRequiredService<TinifyProcessingService>();
 await service.Process(args);
