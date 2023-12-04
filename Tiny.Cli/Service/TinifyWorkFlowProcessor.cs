@@ -1,4 +1,5 @@
-﻿using TinifyAPI;
+﻿using SixLabors.ImageSharp;
+using TinifyAPI;
 using Tiny.Cli.Misc;
 
 namespace Tiny.Cli.Service;
